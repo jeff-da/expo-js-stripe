@@ -15,6 +15,7 @@ class App extends React.Component {
     var token = stripe.createCardToken(cc2,'02','20','999');
     console.log(token);
     console.log(token._65);
+    console.log(token._55);
     this.setState({ code: token._65 });
     /*if (token._65 != null) {
       this.setState({ code: token._65 });
