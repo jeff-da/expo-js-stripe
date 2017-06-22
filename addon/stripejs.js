@@ -18,8 +18,8 @@ module.exports.createCardToken = function (cardNumber, expMonth, expYear, cvc) {
     formBody.push(encodedKey + "=" + encodedValue);
   }
   formBody = formBody.join("&");
-  console.log('happening');
-  
+  //console.log('happening');
+
   return fetch(stripe_url + 'tokens', {
     method: 'post',
     headers: {
