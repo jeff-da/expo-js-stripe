@@ -24,6 +24,16 @@ function _parseJSON(token) {
   }
 }
 
+function _makeBody(details) {
+  var formBody = [];
+  for (var property in details) {
+    var encodedKey = encodeURIComponent(property);
+    var encodedValue = encodeURIComponent(details[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+  }
+  return formBody.join("&");
+}
+
 function _createCardTokenHelper(cardNumber, expMonth, expYear, cvc, key) {
   var cardDetails = {
     "card[number]": cardNumber,
@@ -32,13 +42,8 @@ function _createCardTokenHelper(cardNumber, expMonth, expYear, cvc, key) {
     "card[cvc]": cvc
   };
 
-  var formBody = [];
-  for (var property in cardDetails) {
-    var encodedKey = encodeURIComponent(property);
-    var encodedValue = encodeURIComponent(cardDetails[property]);
-    formBody.push(encodedKey + "=" + encodedValue);
-  }
-  formBody = formBody.join("&");
+  var formBody = _makeBody(cardDetails);
+
   return fetch(stripe_url + 'tokens', {
     method: 'post',
     headers: {
@@ -52,32 +57,13 @@ function _createCardTokenHelper(cardNumber, expMonth, expYear, cvc, key) {
 
 function _createChargeTokenHelper(amount, currency, source, description, key) {
   var chargeDetails = {
-    "charge[amount]": amount,
-    "charge[currency]": currency,
-    "charge[source]": source,
-    "charge[description]": description
+    "amount": amount,
+    "currency": currency,
+    "source": source,
+    "description": description
   };
 
-  var formBody = [];
-  var count = 0;
-  for (var property in chargeDetails) {
-    var encodedKey = encodeURIComponent(property);
-    var encodedValue = encodeURIComponent(chargeDetails[property]);
-    if (count == 0) {
-      formBody.push('amount' + "=" + encodedValue);
-    }
-    if (count == 1) {
-      formBody.push('currency' + "=" + encodedValue);
-    }
-    if (count == 2) {
-      formBody.push('source' + "=" + encodedValue);
-    }
-    if (count == 3) {
-      formBody.push('description' + "=" + encodedValue);
-    }
-    count++;
-  }
-  formBody = formBody.join("&");
+  var formBody = _makeBody(chargeDetails);
 
   return fetch(stripe_url + 'charges', {
     method: 'post',
