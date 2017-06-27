@@ -4,12 +4,12 @@ var stripe_url = 'https://api.stripe.com/v1/';
 
 module.exports = function(key) {
   return {
-    createCard: async function (cardNumber, expMonth, expYear, cvc) {
-      var token = await _createCardToken(cardNumber, expMonth, expYear, cvc, key);
+    createCardToken: async function (cardNumber, expMonth, expYear, cvc) {
+      var token = await _createCardTokenHelper(cardNumber, expMonth, expYear, cvc, key);
       return _parseJSON(token);
     },
-    createCharge: async function (amount, currency, source, description) {
-      var token = await _createChargeToken(amount, currency, source, description, key);
+    createChargeToken: async function (amount, currency, source, description) {
+      var token = await _createChargeTokenHelper(amount, currency, source, description, key);
       return _parseJSON(token);
     },
   }
@@ -24,7 +24,7 @@ function _parseJSON(token) {
   }
 }
 
-function _createCardToken(cardNumber, expMonth, expYear, cvc, key) {
+function _createCardTokenHelper(cardNumber, expMonth, expYear, cvc, key) {
   var cardDetails = {
     "card[number]": cardNumber,
     "card[exp_month]": expMonth,
@@ -50,7 +50,7 @@ function _createCardToken(cardNumber, expMonth, expYear, cvc, key) {
   });
 };
 
-function _createChargeToken(amount, currency, source, description, key) {
+function _createChargeTokenHelper(amount, currency, source, description, key) {
   var chargeDetails = {
     "charge[amount]": amount,
     "charge[currency]": currency,

@@ -14,7 +14,7 @@ class App extends React.Component {
   }
 
   async onPayPress() {
-    var card = await stripe.createCard(cc1,'02','21','999');
+    var card = await stripe.createCardToken(cc1,'02','21','999');
     this.setState({ code: card.id });
   }
 
@@ -39,7 +39,7 @@ class App extends React.Component {
   }*/
 
   async onChargePress() {
-    var charge = await stripe.createCharge(2000,'usd',this.state.code,'Charge for La Croix');
+    var charge = await stripe.createChargeToken(2000,'usd',this.state.code,'Charge for La Croix');
     this.setState({ code: charge.id });
   }
 
