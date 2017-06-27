@@ -1,7 +1,8 @@
 import Expo from 'expo';
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-var stripe = require('./addon/stripejs.js');
+//var stripe = require('./addon/stripejs.js')('sk_test_5zvs6AQgCHvPk4KjiChUn5ZN');
+var stripe = require('./addon/stripejs.js')('sk_test_5zvs6AQgCHvPk4KjiChUn5ZN');
 var cc1 = '4242424242424242';
 var cc2 = '4012888888881881';
 var cc3 = '5555555555554444';
@@ -14,9 +15,6 @@ class App extends React.Component {
 
   async onPayPress() {
     var card = await stripe.createCard(cc1,'02','21','999');
-    console.log('before');
-    console.log(card);
-    console.log('after');
     this.setState({ code: card.id });
   }
 
@@ -42,14 +40,7 @@ class App extends React.Component {
 
   async onChargePress() {
     var charge = await stripe.createCharge(2000,'usd',this.state.code,'Charge for La Croix');
-    console.log(charge);
-    try {
-      let body = JSON.parse('' + charge._bodyInit);
-      console.log(body);
-      this.setState({ code: body.id });
-    } catch (err) {
-      console.log(err);
-    }
+    this.setState({ code: charge.id });
   }
 
   render() {

@@ -1,19 +1,32 @@
 "use strict";
 
-var stripe_url = 'https://api.stripe.com/v1/'
-var secret_key = 'sk_test_5zvs6AQgCHvPk4KjiChUn5ZN'
+var stripe_url = 'https://api.stripe.com/v1/';
 
-module.exports.createCard = async function (cardNumber, expMonth, expYear, cvc) {
-  var token = await createCardToken(cardNumber, expMonth, expYear, cvc);
-  try {
-    let body = JSON.parse('' + token._bodyInit);
-    return body;
-  } catch (err) {
-    return err;
+module.exports = function(key) {
+  return {
+    createCard: async function (cardNumber, expMonth, expYear, cvc) {
+      console.log('kappa');
+      var token = await _createCardToken(cardNumber, expMonth, expYear, cvc, key);
+      try {
+        let body = JSON.parse('' + token._bodyInit);
+        return body;
+      } catch (err) {
+        return err;
+      }
+    },
+    createCharge: async function (amount, currency, source, description) {
+      var token = await _createChargeToken(amount, currency, source, description, key);
+      try {
+        let body = JSON.parse('' + token._bodyInit);
+        return body;
+      } catch (err) {
+        return err;
+      }
+    },
   }
 }
 
-function createCardToken(cardNumber, expMonth, expYear, cvc) {
+function _createCardToken(cardNumber, expMonth, expYear, cvc, key) {
   var cardDetails = {
     "card[number]": cardNumber,
     "card[exp_month]": expMonth,
@@ -33,13 +46,13 @@ function createCardToken(cardNumber, expMonth, expYear, cvc) {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer ' + secret_key
+      'Authorization': 'Bearer ' + key
     },
     body: formBody
   });
-}
+};
 
-module.exports.createCharge = function (amount, currency, source, description) {
+function _createChargeToken(amount, currency, source, description, key) {
   var chargeDetails = {
     "charge[amount]": amount,
     "charge[currency]": currency,
@@ -75,7 +88,7 @@ module.exports.createCharge = function (amount, currency, source, description) {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer ' + secret_key
+      'Authorization': 'Bearer ' + key
     },
     body: formBody
   });
