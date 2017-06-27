@@ -6,6 +6,12 @@ var stripe = require('./addon/stripejs.js')('sk_test_5zvs6AQgCHvPk4KjiChUn5ZN');
 var cc1 = '4242424242424242';
 var cc2 = '4012888888881881';
 var cc3 = '5555555555554444';
+var cardDetails = {
+  "card[number]": '4242424242424242',
+  "card[exp_month]": '02',
+  "card[exp_year]": '21',
+  "card[cvc]": '999'
+};
 
 class App extends React.Component {
 
@@ -14,7 +20,9 @@ class App extends React.Component {
   }
 
   async onPayPress() {
-    var card = await stripe.createCardToken(cc1,'02','21','999');
+    //var card = await stripe.createCardToken(cc1,'02','21','999');
+    //this.setState({ code: card.id });
+    var card = await stripe.createToken(cardDetails);
     this.setState({ code: card.id });
   }
 

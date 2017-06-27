@@ -20,6 +20,10 @@ module.exports = function(key) {
       var token = await _createPIITokenHelper(country, currency, account_holder_name, account_holder_type, routing_number, account_number, key);
       return _parseJSON(token);
     },
+    createToken: async function (details) {
+      var token = await _createTokenHelper(details, key);
+      return _parseJSON(token);
+    }
   }
 }
 
@@ -40,6 +44,20 @@ function _makeBody(details) {
     formBody.push(encodedKey + "=" + encodedValue);
   }
   return formBody.join("&");
+}
+
+function _createTokenHelper(details, key) {
+  var formBody = _makeBody(details);
+
+  return fetch(stripe_url + 'tokens', {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer ' + key
+    },
+    body: formBody
+  });
 }
 
 function _createBankAccountTokenHelper(country, currency, account_holder_name, account_holder_type, routing_number, account_number, key) {
