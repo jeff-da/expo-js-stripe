@@ -5,24 +5,22 @@ var stripe_url = 'https://api.stripe.com/v1/';
 module.exports = function(key) {
   return {
     createCard: async function (cardNumber, expMonth, expYear, cvc) {
-      console.log('kappa');
       var token = await _createCardToken(cardNumber, expMonth, expYear, cvc, key);
-      try {
-        let body = JSON.parse('' + token._bodyInit);
-        return body;
-      } catch (err) {
-        return err;
-      }
+      return _parseJSON(token);
     },
     createCharge: async function (amount, currency, source, description) {
       var token = await _createChargeToken(amount, currency, source, description, key);
-      try {
-        let body = JSON.parse('' + token._bodyInit);
-        return body;
-      } catch (err) {
-        return err;
-      }
+      return _parseJSON(token);
     },
+  }
+}
+
+function _parseJSON(token) {
+  try {
+    let body = JSON.parse('' + token._bodyInit);
+    return body;
+  } catch (err) {
+    return err;
   }
 }
 
@@ -80,8 +78,6 @@ function _createChargeToken(amount, currency, source, description, key) {
     count++;
   }
   formBody = formBody.join("&");
-  //console.log('happening');
-  console.log(formBody);
 
   return fetch(stripe_url + 'charges', {
     method: 'post',
@@ -92,11 +88,4 @@ function _createChargeToken(amount, currency, source, description, key) {
     },
     body: formBody
   });
-  /*return fetch('https://api.stripe.com/v1/tokens?card[number]=4242424242424242&card[exp_month]=1&card[exp_year]=2020&card[cvc]=123&amount=999&currency=usd', {
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": "Bearer " + secret_key
-    }
-  })*/
 };
