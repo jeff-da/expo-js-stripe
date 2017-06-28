@@ -3463,9 +3463,9 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
-stripe@^4.23.0:
-  version "4.23.0"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-4.23.0.tgz#f5268f4a6ebcea117205a345af34a077f726e86d"
+stripe@^4.23.1:
+  version "4.23.1"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-4.23.1.tgz#df52977323d3ee887a07ac5905703fcdc045d2ee"
   dependencies:
     bluebird "^2.10.2"
     lodash.isplainobject "^4.0.6"

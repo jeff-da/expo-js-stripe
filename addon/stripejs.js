@@ -8,6 +8,7 @@ module.exports = function(key) {
       var token = await _createCardTokenHelper(cardNumber, expMonth, expYear, cvc, key);
       return _parseJSON(token);
     },
+    // charge token requires secret key
     createChargeToken: async function (amount, currency, source, description) {
       var token = await _createChargeTokenHelper(amount, currency, source, description, key);
       return _parseJSON(token);
@@ -20,12 +21,19 @@ module.exports = function(key) {
       var token = await _createPIITokenHelper(country, currency, account_holder_name, account_holder_type, routing_number, account_number, key);
       return _parseJSON(token);
     },
+    // may require secret key
     createToken: async function (details) {
       var token = await _createTokenHelper(details, key);
       return _parseJSON(token);
     },
+    // may require secret key
     fetch: async function (type, details) {
       var token = await _fetchHelper(type, details, key);
+      return _parseJSON(token);
+    },
+    // require secret key
+    retrieve: async function (type, token) {
+      var token = await _fetchHelper(type, token, key);
       return _parseJSON(token);
     }
   }
@@ -75,6 +83,20 @@ function _fetchHelper(type, details, key) {
       'Authorization': 'Bearer ' + key
     },
     body: formBody
+  });
+}
+
+function _retrieveHelper(type, token, key) {
+  var formBody = {};
+
+  return fetch('' + stripe_url + type + '/' + token, {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer ' + key
+    },
+    body: {}
   });
 }
 

@@ -9,6 +9,6 @@
     "expo": "17.0.0",
     "react": "16.0.0-alpha.6",
     "react-native": "https://github.com/expo/react-native/archive/sdk-17.0.0.tar.gz",
-    "stripe": "^4.23.0"
+    "stripe": "^4.23.1"
   }
 }

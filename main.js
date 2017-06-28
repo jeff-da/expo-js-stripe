@@ -2,7 +2,7 @@ import Expo from 'expo';
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 //var stripe = require('./addon/stripejs.js')('sk_test_5zvs6AQgCHvPk4KjiChUn5ZN');
-var stripe = require('./addon/stripejs.js')('sk_test_5zvs6AQgCHvPk4KjiChUn5ZN');
+var stripe = require('./addon/stripejs.js')('pk_test_YRjUHSZfJza9RsuNDx9s6e5V');
 var cc1 = '4242424242424242';
 var cc2 = '4012888888881881';
 var cc3 = '5555555555554444';
@@ -21,38 +21,17 @@ class App extends React.Component {
   }
 
   async onPayPress() {
-    //var card = await stripe.createCardToken(cc1,'02','21','999');
-    //this.setState({ code: card.id });
     var card = await stripe.fetch("tokens", cardDetails);
     this.setState({ code: card.id });
     console.log(card);
   }
 
-
-
-  /*async onPayPress() {
-    var token = await stripe.createCardToken(cc3,'02','20','999');
-    console.log(token);
-    try {
-      let body = JSON.parse('' + token._bodyInit);
-      console.log(body);
-      this.setState({ code: body.id });
-    } catch (err) {
-      console.log(err);
-    }
-    //this.setState({ code: body.id });
-    if (token._65 != null) {
-      this.setState({ code: token._65 });
-      console.log(token._55);
-      //token._55._bodyInit.id
-    } else {
-      this.setState({ code: token._55 });
-    }*
-  }*/
-
   async onChargePress() {
-    var charge = await stripe.createChargeToken(2000,'usd',this.state.code,'Charge for La Croix');
-    this.setState({ code: charge.id });
+    // var charge = await stripe.createChargeToken(2000,'usd',this.state.code,'Charge for La Croix');
+    // this.setState({ code: charge.id });
+    //var tok = await stripe.fetch("tokens/" + this.state.code, {});
+    var tok = await stripe.retrieve('tokens', 'this.state.code');
+    console.log(tok);
   }
 
   render() {
