@@ -23,6 +23,10 @@ module.exports = function(key) {
     createToken: async function (details) {
       var token = await _createTokenHelper(details, key);
       return _parseJSON(token);
+    },
+    fetch: async function (type, details) {
+      var token = await _fetchHelper(type, details, key);
+      return _parseJSON(token);
     }
   }
 }
@@ -50,6 +54,20 @@ function _createTokenHelper(details, key) {
   var formBody = _makeBody(details);
 
   return fetch(stripe_url + 'tokens', {
+    method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer ' + key
+    },
+    body: formBody
+  });
+}
+
+function _fetchHelper(type, details, key) {
+  var formBody = _makeBody(details);
+
+  return fetch('' + stripe_url + type, {
     method: 'post',
     headers: {
       'Accept': 'application/json',

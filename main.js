@@ -10,7 +10,8 @@ var cardDetails = {
   "card[number]": '4242424242424242',
   "card[exp_month]": '02',
   "card[exp_year]": '21',
-  "card[cvc]": '999'
+  "card[cvc]": '999',
+  "card[name]": 'Steve Jobs'
 };
 
 class App extends React.Component {
@@ -22,9 +23,12 @@ class App extends React.Component {
   async onPayPress() {
     //var card = await stripe.createCardToken(cc1,'02','21','999');
     //this.setState({ code: card.id });
-    var card = await stripe.createToken(cardDetails);
+    var card = await stripe.fetch("tokens", cardDetails);
     this.setState({ code: card.id });
+    console.log(card);
   }
+
+
 
   /*async onPayPress() {
     var token = await stripe.createCardToken(cc3,'02','20','999');
