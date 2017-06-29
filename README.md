@@ -18,13 +18,13 @@ React Native Stripe wrapper that makes using Stripe with React Native easy in iO
 Run 'npm install --save stripe-express' or 'yarn add stripe-express' to add the package to your app's dependencies.
 
 ## Setup
-
+'''javascript
 var stripe = require('stripe-express')('YOUR_PUBLISHABLE_STRIPE_API_KEY');
-
+'''
 ## Example Usage
 
 ### Creating a credit card token
-
+'''javascript
 import React from 'react';
 var stripe = require('stripe-express')('YOUR_PUBLISHABLE_STRIPE_API_KEY');
 
@@ -48,9 +48,9 @@ export class App extends React.Component {
     ...
   }
 }
-
+'''
 ### Creating a bank account token
-
+'''javascript
 import React from 'react';
 var stripe = require('stripe-express')('YOUR_PUBLISHABLE_STRIPE_API_KEY');
 
@@ -75,9 +75,9 @@ export class App extends React.Component {
     ...
   }
 }
-
+'''
 ### Creating a PII token
-
+'''javascript
 var stripe = require('stripe-express')('YOUR_PUBLISHABLE_STRIPE_API_KEY');
 
 var information = {
@@ -96,12 +96,14 @@ export class App extends React.Component {
     ...
   }
 }
-
+'''
 ## Questions and Answers
 
 Where can I find more information about creating tokens in Stripe?
 - Check out the Stripe docs at https://stripe.com/docs/api/node#tokens .
+
 Help! I don't know where to find 'YOUR_PUBLISHABLE_STRIPE_API_KEY' ?
 - Make an account on Stripe (if you haven't already) and check out https://dashboard.stripe.com/account/apikeys .
+
 I want to charge a customer with this library. How would I do that?
 - Stripe only allows you to exchange card information for a payment token on the frontend. You should get this token, and then immediately pass it to a backend function that validates it, either by creating a charge, or else by attaching it to a customer. See the [Stripe API] (https://stripe.com/docs/api) for more information, and [this helpful blog post] (http://www.larryullman.com/2013/01/30/handling-stripe-errors/) for more on handling Stripe errors.
