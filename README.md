@@ -24,8 +24,9 @@ var stripe = require('stripe-express')('YOUR_PUBLISHABLE_STRIPE_API_KEY');
 
 ## Creating a token
 
-- `stripe.createToken(...)` returns a Promise of a token object (https://stripe.com/docs/api/node#token_object).
-- If the token object creation fails (ex. the expiration date is invalid, the card number is the wrong format), `stripe.createToken(...)` returns the corresponding error (https://stripe.com/docs/api/node#errors).
+`stripe.createToken(...)` returns a Promise of a token object (https://stripe.com/docs/api/node#token_object).
+
+If the token object creation fails (ex. the expiration date is invalid, the card number is the wrong format), `stripe.createToken(...)` returns the corresponding error (https://stripe.com/docs/api/node#errors).
 
 - Example function call
 ```javascript
