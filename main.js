@@ -1,11 +1,7 @@
 import Expo from 'expo';
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-//var stripe = require('./addon/stripejs.js')('sk_test_5zvs6AQgCHvPk4KjiChUn5ZN');
 var stripe = require('./addon/stripejs.js')('pk_test_YRjUHSZfJza9RsuNDx9s6e5V');
-var cc1 = '4242424242424242';
-var cc2 = '4012888888881881';
-var cc3 = '5555555555554444';
 var cardDetails = {
   "card[number]": '4242424242424242',
   "card[exp_month]": '02',
@@ -14,12 +10,14 @@ var cardDetails = {
   "card[name]": 'Steve Jobs'
 };
 
-var cardDetails2 = {
-  card: {
-    "number": '4242424242424242',
-    "exp_month": 12,
-    "exp_year": 2018,
-    "cvc": '123'
+var bankDetails = {
+  bank_account: {
+    country: 'US',
+    currency: 'usd',
+    account_holder_name: 'Noah Martinez',
+    account_holder_type: 'individual',
+    routing_number: '110000000',
+    account_number: '000123456789'
   }
 }
 
@@ -30,18 +28,12 @@ class App extends React.Component {
   }
 
   async onPayPress() {
-    var card = await stripe.createToken(cardDetails2);
+    var card = await stripe.createToken(bankDetails);
     //var card = await stripe.fetch("tokens", cardDetails);
-    this.setState({ code: card.id });
+    this.setState({
+      code: card.id,
+    });
     console.log(card);
-  }
-
-  async onChargePress() {
-    // var charge = await stripe.createChargeToken(2000,'usd',this.state.code,'Charge for La Croix');
-    // this.setState({ code: charge.id });
-    //var tok = await stripe.fetch("tokens/" + this.state.code, {});
-    var tok = await stripe.retrieve('tokens', 'this.state.code');
-    console.log(tok);
   }
 
   render() {
@@ -52,13 +44,7 @@ class App extends React.Component {
           style={styles.button}
           onPress={this.onPayPress.bind(this)}
         >
-          <Text style={styles.buttonText}>Tap me to set up credit card</Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.button}
-          onPress={this.onChargePress.bind(this)}
-        >
-          <Text style={styles.buttonText}>Tap me after to charge the credit card</Text>
+          <Text style={styles.buttonText}>Tap me to set token</Text>
         </TouchableHighlight>
         <Text>{this.state.code}</Text>
       </View>
