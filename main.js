@@ -14,6 +14,15 @@ var cardDetails = {
   "card[name]": 'Steve Jobs'
 };
 
+var cardDetails2 = {
+  card: {
+    "number": '4242424242424242',
+    "exp_month": 12,
+    "exp_year": 2018,
+    "cvc": '123'
+  }
+}
+
 class App extends React.Component {
 
   state = {
@@ -21,7 +30,8 @@ class App extends React.Component {
   }
 
   async onPayPress() {
-    var card = await stripe.fetch("tokens", cardDetails);
+    var card = await stripe.createToken(cardDetails2);
+    //var card = await stripe.fetch("tokens", cardDetails);
     this.setState({ code: card.id });
     console.log(card);
   }

@@ -21,8 +21,10 @@ module.exports = function(key) {
       var token = await _createPIITokenHelper(country, currency, account_holder_name, account_holder_type, routing_number, account_number, key);
       return _parseJSON(token);
     },
-    // may require secret key
     createToken: async function (details) {
+      if (details.card != null || details.bank_account != null || details.pii != null) {
+        details = _convertDetails(details);
+      }
       var token = await _createTokenHelper(details, key);
       return _parseJSON(token);
     },
@@ -37,6 +39,25 @@ module.exports = function(key) {
       return _parseJSON(token);
     }
   }
+}
+
+function _convertDetails(details) {
+  if (details.card != null) {
+    var type = 'card';
+    var database = Object.entries(details.card);
+  } else if (details.bank_account != null) {
+    var type = 'bank_account';
+    var database = Object.entries(details.bank_account);
+  } else {
+    var type = 'pii';
+    var database = Object.entries(details.pii);
+  }
+  var convertedDetails = {}
+  for (var data in database) {
+    var string = type + '[' + database[data][0] + ']';
+    convertedDetails[string] = database[data][1];
+  }
+  return convertedDetails;
 }
 
 function _parseJSON(token) {
