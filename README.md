@@ -15,16 +15,16 @@ React Native Stripe wrapper that makes using Stripe with React Native easy in iO
 
 ## Installation
 
-Run 'npm install --save stripe-express' or 'yarn add stripe-express' to add the package to your app's dependencies.
+Run `npm install --save stripe-express` or `yarn add stripe-express` to add the package to your app's dependencies.
 
 ## Setup
-'''javascript
+```javascript
 var stripe = require('stripe-express')('YOUR_PUBLISHABLE_STRIPE_API_KEY');
-'''
+```
 ## Example Usage
 
 ### Creating a credit card token
-'''javascript
+```javascript
 import React from 'react';
 var stripe = require('stripe-express')('YOUR_PUBLISHABLE_STRIPE_API_KEY');
 
@@ -48,9 +48,9 @@ export class App extends React.Component {
     ...
   }
 }
-'''
+```
 ### Creating a bank account token
-'''javascript
+```javascript
 import React from 'react';
 var stripe = require('stripe-express')('YOUR_PUBLISHABLE_STRIPE_API_KEY');
 
@@ -75,9 +75,9 @@ export class App extends React.Component {
     ...
   }
 }
-'''
+```
 ### Creating a PII token
-'''javascript
+```javascript
 var stripe = require('stripe-express')('YOUR_PUBLISHABLE_STRIPE_API_KEY');
 
 var information = {
@@ -96,7 +96,7 @@ export class App extends React.Component {
     ...
   }
 }
-'''
+```
 ## Questions and Answers
 
 Where can I find more information about creating tokens in Stripe?
