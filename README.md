@@ -21,6 +21,61 @@ Run `npm install --save stripe-express` or `yarn add stripe-express` to add the 
 ```javascript
 var stripe = require('stripe-express')('YOUR_PUBLISHABLE_STRIPE_API_KEY');
 ```
+
+## Creating a token
+
+'stripe.createToken(...)' returns a Promise of a token object (https://stripe.com/docs/api/node#token_object). If the token object creation fails (ex. the expiration date is invalid, the card number is the wrong format), 'stripe.createToken(...)' returns an error (https://stripe.com/docs/api/node#errors).
+
+For example...
+
+Function call:
+```javascript
+stripe.createToken({
+  card: {
+    "number": '4242424242424242',
+    "exp_month": 12,
+    "exp_year": 2018,
+    "cvc": '123'
+  }
+});
+```
+Example return:
+```javascript
+{
+  "id": "tok_1AWuxsJd4nFN3COfSKY8195M",
+  "object": "token",
+  "card": {
+    "id": "card_1AWuxsJd4nFN3COfUOhQfBVw",
+    "object": "card",
+    "address_city": null,
+    "address_country": null,
+    "address_line1": null,
+    "address_line1_check": null,
+    "address_line2": null,
+    "address_state": null,
+    "address_zip": null,
+    "address_zip_check": null,
+    "brand": "Visa",
+    "country": "US",
+    "cvc_check": null,
+    "dynamic_last4": null,
+    "exp_month": 8,
+    "exp_year": 2018,
+    "fingerprint": "EL88ufXeYTG02LOU",
+    "funding": "credit",
+    "last4": "4242",
+    "metadata": {
+    },
+    "name": null,
+    "tokenization_method": null
+  },
+  "client_ip": null,
+  "created": 1497998212,
+  "livemode": false,
+  "type": "card",
+  "used": false
+}
+```
 ## Example Usage
 
 ### Creating a credit card token
